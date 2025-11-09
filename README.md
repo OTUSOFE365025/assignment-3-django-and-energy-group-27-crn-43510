@@ -34,7 +34,7 @@ assignment-3-django-and-energy-group-27-crn-43510
 
 1. Clone the Repo:
 ```
-git clone assignment-3-django-and-energy-group-27-crn-43510
+git clone https://github.com/OTUSOFE365025/assignment-3-django-and-energy-group-27-crn-43510
 cd assignment-3-django-and-energy-group-27-crn-43510
 ```
 
