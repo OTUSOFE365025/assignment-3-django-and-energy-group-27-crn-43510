@@ -1,3 +1,5 @@
+# Handles all Django project settings, including database configurations and environment setup
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'sub_dir' 
@@ -35,3 +37,6 @@ DATABASES = {
 """
 
 INSTALLED_APPS = ("db",)
+
+DEBUG = True
+ALLOWED_HOSTS = ['*']

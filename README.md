@@ -1,102 +1,134 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-cPJVYMd)
-Django ORM Standalone
-=====================
+# 🧾 Cash Register Application (Django ORM + Tkinter) 
+*Group 27*
 
-![Django](https://img.shields.io/badge/Django_ORM-Standalone-blue)
-![Python](https://img.shields.io/badge/Python-yellow)
+This project is a **standalone cash register system** built using **Python**, **Django ORM**, and **Tkinter**.  
+It replicates the basic functionalities of a store checkout system, allowing users to:
+- Populate a product database with UPC codes, names, and prices.
+- Scan products via a UPC input field.
+- Display scanned products dynamically in a scrollable list.
+- Automatically calculate and display a running subtotal.
 
-Use the database components of Django without having to use the rest of Django (i.e. running a web server)! :tada: A typical use case for using this template would be if you are writing a python script and you would like the database functionality provided by Django, but have no need for the request/response functionalty of a client/server web application that Django also provides. 
+This project leverages **Django’s ORM** for data handling and **Tkinter** for the GUI interface.
 
-With this project template you can write regular python scripts and use Django's excellent ORM functionality with the database backend of your choice. This makes it convienient for Djangonauts to write database driven python applications with the familiar and well polished Django ORM. Enjoy.
+## 📁 Repository Structure
+```
+assignment-3-django-and-energy-group-27-crn-43510
+|
+├── 📁 __pycache__/
+├── 📁 db/ 
+│ ├── init.py
+│ ├── models.py 
+│ ├── 📁 migrations/ 
+|
+├── .gitignore
+├── main.py 
+├── manage.py 
+├── settings.py 
+├── db.sqlite3 
+├── 📁 venv/
+├── 📁 Outputs
+└── README.md
+```
 
-:gear: Requirements
--------------------
-- Last tested successfully with Python 3.10.4 and Django 5.0.6
-- Create venv and pip install django to import the required modules.
+## ⚙️ Setup & Execution
 
-:open_file_folder: File Structure
----------------------------------
+1. Clone the Repo:
 ```
-django-orm/
-├── db/
-│   ├── __init__.py
-│   └── models.py
-├── main.py
-├── manage.py
-├── README.md
-└── settings.py
+git clone assignment-3-django-and-energy-group-27-crn-43510
+cd assignment-3-django-and-energy-group-27-crn-43510
 ```
 
-__The main.py file is the entry point for the project, and where you start your code. You automatically get access to your models via ```from db.models import *```
-Think of it like a plain old python file, but now with the addition of Django's feature-rich models.__ :smiling_face_with_three_hearts:
+2. Activate the virtual environment
+```
+python -m venv venv
+venv\Scripts\activate     # On Windows
+source venv/bin/activate  # On Mac/Linux
+```
 
-__The db/models.py is where you configure your typical Django models.__ There is a toy user model included as a simple example. After running the migrations command in the quick setup below, a db.sqlite3 file will be generated. The settings.py file is where can swap out the sqlite3 database for another database connection, such as Postgres or AmazonRDS, if you wish. For most applications, sqlite3 will be powerful enough. But if you need to swap databases down the road, you can easily do so, which is one of the benefits of using the Django ORM. 
+3. Install Django
+```
+pip install django
+```
 
-:rocket: Quick Setup
---------------------
-Create a folder for your project on your local machine
+4. Initialize the database
 ```
-mkdir myproject; cd myproject
-```
-Create a virtual environment and install django
-```
-python -m venv venv; source venv/bin/activate; pip install django
-```
-Download this project template from GitHub
-```
-git clone git@github.com:dancaron/Django-ORM.git; cd Django-ORM
-```
-Initialize the database
-```
-python manage.py makemigrations db; python manage.py migrate
-```
-Run the project
+python manage.py makemigrations db 
+python manage.py migrate
+``` 
+5. Run the project
 ```
 python main.py
 ```
+- When launched, the Tkinter window will appear centered on screen.
+- Enter a UPC code and click Scan to add a product to the list.
+- Use Clear to reset the display or Exit to close the program.
 
-Feel free to send pull requests if you want to improve this project.
+## 🎯 How Django ORM Is Used
 
-:crystal_ball: Example
-----------------------
-After running Quick Start above: 
-
-Code in db/models.py:
+The file `models.py` defines a Product model with three fields:
 ```
-# Sample User model
-class User(models.Model):
-    name = models.CharField(max_length=50, default='Dan')
-
-    def __str__(self):
-        return self.name
-```
-Code in main.py:
-```
-# Seed a few users in the database
-User.objects.create(name='Dan')
-User.objects.create(name='Robert')
-
-for u in User.objects.all():
-    print(f'ID: {u.id} \tUsername: {u.name}')
-```
-Output from command: ```python main.py```
-```
-ID: 1	Username: Dan
-ID: 2	Username: Robert
+class Product(models.Model):
+    upc = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 ```
 
-:mortar_board: Django Models
-----------------------------
+The ORM automatically creates and manages a **SQLite database (`db.sqlite3`).**
 
-Link: [How to Use Django Models](https://docs.djangoproject.com/en/3.1/topics/db/models/)
+In `main.py`, the app initializes Django’s environment:
+```
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+django.setup()
+```
+This connects the Tkinter frontend to the ORM backend seamlessly.
 
-License
--------
+Products are populated using:
+```
+Product.objects.get_or_create(upc=p["upc"], defaults={"name": p["name"], "price": p["price"]})
+```
 
-The MIT License (MIT) Copyright (c) 2024 Dan Caron
+All product lookups during scanning use:
+```
+Product.objects.get(upc=upc)
+```
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+This satisfies the requirement to use Django’s **Object Relational Mapper (ORM)** for database operations.
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+## 🖥️ Application Features
+- Graphical Interface built with Tkinter.
+- UPC Input field for scanning products.
+- Scrollable Listbox showing all scanned products.
+- Subtotal Display updated in real time.
+- Clear Button to reset list and subtotal.
+- Exit Button to close the application.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## 📷 Demonstration
+<table>
+  <tr>
+    <td><img src="outputs/Main_Wndow.png" width="300"/></td>
+    <td><img src="outputs/product_scanning.png" width="300"/></td>
+  </tr>
+  <tr>
+    <td><img src="outputs/scrollable.png" width="300"/></td>
+    <td><img src="outputs/wrong_upc.png" width="300"/></td>
+  </tr>
+</table>
+
+## 🧰 Tech Stack
+- Python 3.x
+- Django ORM
+- Tkinter GUI
+- SQLite3 Database
+
+## 👥 Contribution Matrix
+**Group 27**
+| Team Member | Student ID | Role / Responsibility |
+|---|---|---|
+| **Khushi Patel** | 100940709 | Q1 - Django ORM |
+| **Prabhnoor Saini** | 1009 | Q1 - Django ORM |
+| **Hadia Ali** | | Q2 - Energy QA |
+
+## 📜 License
+*This project was created as part of a university coursework assignment for educational purposes only.*
+
+
