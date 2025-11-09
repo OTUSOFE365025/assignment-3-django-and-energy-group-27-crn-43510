@@ -1,16 +1,13 @@
+# Defines database tables used by the project.
+
 import sys
+from django.db import models
 
-try:
-    from django.db import models
-except Exception:
-    print('Exception: Django Not Found, please install it with "pip install django".')
-    sys.exit()
-
-
-# Sample User model
-class User(models.Model):
-    name = models.CharField(max_length=50, default="Dan")
+# Product model for Cash Register App
+class Product(models.Model):
+    upc = models.CharField(max_length=20, unique=True)
+    name = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return self.name
-
+        return f"{self.name} (${self.price})"
