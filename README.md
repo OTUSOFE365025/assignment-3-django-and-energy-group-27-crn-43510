@@ -105,12 +105,12 @@ This satisfies the requirement to use Django’s **Object Relational Mapper (ORM
 ## 📷 Demonstration
 <table>
   <tr>
-    <td><img src="outputs/Main_Wndow.png" width="300"/></td>
-    <td><img src="outputs/product_scanning.png" width="300"/></td>
+    <td><img src="outputs/Main_Wndow.png" width="500"/></td>
+    <td><img src="outputs/product_scanning.png" width="500"/></td>
   </tr>
   <tr>
-    <td><img src="outputs/scrollable.png" width="300"/></td>
-    <td><img src="outputs/wrong_upc.png" width="300"/></td>
+    <td><img src="outputs/scrollable.png" width="500"/></td>
+    <td><img src="outputs/wrong_upc.png" width="500"/></td>
   </tr>
 </table>
 
