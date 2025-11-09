@@ -125,8 +125,8 @@ This satisfies the requirement to use Django’s **Object Relational Mapper (ORM
 | Team Member | Student ID | Role / Responsibility |
 |---|---|---|
 | **Khushi Patel** | 100940709 | Q1 - Django ORM |
-| **Prabhnoor Saini** | 1009 | Q1 - Django ORM |
-| **Hadia Ali** | | Q2 - Energy QA |
+| **Prabhnoor Saini** | 100946515 | Q1 - Django ORM |
+| **Hadia Ali** | 100876605 | Q2 - Energy QA |
 
 ## 📜 License
 *This project was created as part of a university coursework assignment for educational purposes only.*
